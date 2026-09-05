@@ -1,3 +1,12 @@
+package com.gtmpricingengine.engine;
+
+import com.gtmpricingengine.dto.PricingResult;
+import com.gtmpricingengine.model.ChannelRule;
+import com.gtmpricingengine.rule.PricingRule;
+import com.gtmpricingengine.service.PricingService;
+import com.gtmpricingengine.model.Product;
+import com.gtmpricingengine.exception.InvalidDiscountException;
+
 public class PricingEngine {
     private PricingService pricingService;
     public PricingEngine(PricingService pricingService) {

@@ -1,3 +1,5 @@
+package com.gtmpricingengine.model;
+
 public class ChannelRule {
     private String channelName;
     private double defaultDiscount;

@@ -1,4 +1,6 @@
-public class BolPricingRule implements PricingRule{
+package com.gtmpricingengine.rule;
+
+public class BolPricingRule implements PricingRule {
     @Override
     public double calculateDiscount() {
         return 0.10;

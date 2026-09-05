@@ -1,3 +1,5 @@
+package com.gtmpricingengine.rule;
+
 public class CoolbluePricingRule implements PricingRule {
     @Override
     public double calculateDiscount() {

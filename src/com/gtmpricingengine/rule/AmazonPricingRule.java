@@ -1,4 +1,6 @@
-public class AmazonPricingRule implements PricingRule{
+package com.gtmpricingengine.rule;
+
+public class AmazonPricingRule implements PricingRule {
     @Override
     public  double calculateDiscount() {
         return 0.15;

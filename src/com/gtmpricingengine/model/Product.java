@@ -1,3 +1,5 @@
+package com.gtmpricingengine.model;
+
 public class Product {
     private String sku;
     private String name;

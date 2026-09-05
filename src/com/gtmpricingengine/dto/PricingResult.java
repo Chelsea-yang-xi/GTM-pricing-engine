@@ -1,3 +1,5 @@
+package com.gtmpricingengine.dto;
+import com.gtmpricingengine.model.Product;
 public class PricingResult {
 
     private Product product;

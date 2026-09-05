@@ -1,3 +1,9 @@
+package com.gtmpricingengine.service;
+
+import com.gtmpricingengine.exception.InvalidDiscountException;
+import com.gtmpricingengine.model.ChannelRule;
+import com.gtmpricingengine.model.Product;
+
 public class PricingService {
     public double calculateSellingPrice(
             Product product,

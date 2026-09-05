@@ -1,14 +1,28 @@
+package com.gtmpricingengine.app;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import com.gtmpricingengine.catalog.ProductCatalog;
+import com.gtmpricingengine.exception.InvalidDiscountException;
+import com.gtmpricingengine.model.Product;
+import com.gtmpricingengine.model.ChannelRule;
+import com.gtmpricingengine.rule.PricingRule;
+import com.gtmpricingengine.rule.AmazonPricingRule;
+import com.gtmpricingengine.rule.BolPricingRule;
+import com.gtmpricingengine.rule.CoolbluePricingRule;
+import com.gtmpricingengine.service.PricingService;
+import com.gtmpricingengine.engine.PricingEngine;
+import com.gtmpricingengine.dto.PricingResult;
+
 
 public class Main {
 
     public static void main(String[] args) {
 
         // ==============================
-        // 1. Create Product Catalog
+        // 1. Create com.gtmpricingengine.model.Product Catalog
         // ==============================
 
         ProductCatalog catalog = new ProductCatalog();
@@ -43,7 +57,7 @@ public class Main {
 
 
         // ==============================
-        // 2. Test Product Catalog
+        // 2. Test com.gtmpricingengine.model.Product Catalog
         // ==============================
 
         Product selected =

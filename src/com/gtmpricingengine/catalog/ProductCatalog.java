@@ -1,6 +1,9 @@
+package com.gtmpricingengine.catalog;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import com.gtmpricingengine.model.Product;
 
 public class ProductCatalog {
 
