@@ -1,4 +1,10 @@
 package com.gtmpricingengine.repository;
 
-public class InMemoryProductRepositoryTest {
+class InMemoryProductRepositoryTest
+        extends ProductRepositoryContractTest {
+
+    @Override
+    protected ProductRepository createRepository() {
+        return new InMemoryProductRepository();
+    }
 }
