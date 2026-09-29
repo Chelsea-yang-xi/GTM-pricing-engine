@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import com.gtmpricingengine.catalog.ProductCatalog;
 import com.gtmpricingengine.exception.InvalidDiscountException;
 import com.gtmpricingengine.model.Product;
 import com.gtmpricingengine.model.ChannelRule;
@@ -15,6 +14,8 @@ import com.gtmpricingengine.rule.CoolbluePricingRule;
 import com.gtmpricingengine.service.PricingService;
 import com.gtmpricingengine.engine.PricingEngine;
 import com.gtmpricingengine.dto.PricingResult;
+import com.gtmpricingengine.repository.ProductRepository;
+import com.gtmpricingengine.repository.InMemoryProductRepository;
 
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
         // 1. Create com.gtmpricingengine.model.Product Catalog
         // ==============================
 
-        ProductCatalog catalog = new ProductCatalog();
+        ProductRepository productRepository = new InMemoryProductRepository();
 
         Product product1 =
                 new Product(
@@ -51,9 +52,9 @@ public class Main {
                         38
                 );
 
-        catalog.addProduct(product1);
-        catalog.addProduct(product2);
-        catalog.addProduct(product3);
+        productRepository.save(product1);
+        productRepository.save(product2);
+        productRepository.save(product3);
 
 
         // ==============================
@@ -61,7 +62,7 @@ public class Main {
         // ==============================
 
         Product selected =
-                catalog.getProduct("A2148");
+                productRepository.findBySku("A2148");
 
         System.out.println(
                 selected.getName()
@@ -73,7 +74,7 @@ public class Main {
 
         System.out.println(
                 "Products in catalog: "
-                        + catalog.size()
+                        + productRepository.count()
         );
 
 
@@ -180,7 +181,7 @@ public class Main {
 
 
             for (Product product :
-                    catalog.getAllProducts()) {
+                    productRepository.findAll()) {
 
                 try {
                     PricingResult result = engine.calculate(
