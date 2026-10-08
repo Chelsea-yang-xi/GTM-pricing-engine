@@ -5,6 +5,7 @@ import com.gtmpricingengine.dto.PricingResult;
 import com.gtmpricingengine.engine.PricingEngine;
 import com.gtmpricingengine.model.ChannelRule;
 import com.gtmpricingengine.model.Product;
+import com.gtmpricingengine.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,12 +18,18 @@ public class PricingController {
 
     private final PricingEngine pricingEngine;
 
+    private final ProductService productService;
+
 
     public PricingController(
-            PricingEngine pricingEngine
+            PricingEngine pricingEngine,
+            ProductService productService
     ) {
         this.pricingEngine =
                 pricingEngine;
+
+        this.productService =
+                productService;
     }
 
 
@@ -34,12 +41,10 @@ public class PricingController {
     ) {
 
         Product product =
-                new Product(
-                        request.sku(),
-                        request.name(),
-                        request.rrp(),
-                        request.cost()
-                );
+                productService
+                        .getBySku(
+                                request.sku()
+                        );
 
 
         ChannelRule channelRule =

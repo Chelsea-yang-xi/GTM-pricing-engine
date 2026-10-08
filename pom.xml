@@ -42,7 +42,22 @@
         </dependency>
 
 
-        <!-- Development-only automatic restart tools -->
+        <!-- Spring Data JPA + Hibernate -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+
+        <!-- PostgreSQL JDBC driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <!-- Development-only automatic restart -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -50,14 +65,14 @@
         </dependency>
 
 
-        <!-- Current JDBC development database -->
+        <!-- H2 used for automated tests -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
 
 
-        <!-- JUnit 5 + Spring test tools -->
+        <!-- JUnit + Spring testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -79,6 +94,7 @@
                         com.gtmpricingengine.GtmPricingEngineApplication
                     </mainClass>
                 </configuration>
+
             </plugin>
 
         </plugins>

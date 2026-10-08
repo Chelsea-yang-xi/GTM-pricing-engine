@@ -3,7 +3,6 @@ package com.gtmpricingengine.dto;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 
 public record PricingRequest(
 
@@ -11,23 +10,6 @@ public record PricingRequest(
                 message = "SKU must not be blank"
         )
         String sku,
-
-        @NotBlank(
-                message = "Product name must not be blank"
-        )
-        String name,
-
-        @Positive(
-                message = "RRP must be greater than zero"
-        )
-        double rrp,
-
-        @DecimalMin(
-                value = "0.0",
-                inclusive = true,
-                message = "Cost cannot be negative"
-        )
-        double cost,
 
         @NotBlank(
                 message = "Channel name must not be blank"
@@ -45,42 +27,34 @@ public record PricingRequest(
         double defaultDiscount,
 
         @DecimalMin(
-                value = "0.0",
-                message = "Maximum discount cannot be negative"
+                value = "0.0"
         )
         @DecimalMax(
-                value = "1.0",
-                message = "Maximum discount cannot exceed 1"
+                value = "1.0"
         )
         double maxDiscount,
 
         @DecimalMin(
-                value = "0.0",
-                message = "Minimum margin cannot be negative"
+                value = "0.0"
         )
         @DecimalMax(
-                value = "1.0",
-                message = "Minimum margin cannot exceed 1"
+                value = "1.0"
         )
         double minimumMargin,
 
         @DecimalMin(
-                value = "0.0",
-                message = "Campaign fee cannot be negative"
+                value = "0.0"
         )
         @DecimalMax(
-                value = "1.0",
-                message = "Campaign fee cannot exceed 1"
+                value = "1.0"
         )
         double campaignFee,
 
         @DecimalMin(
-                value = "0.0",
-                message = "Minimum campaign discount cannot be negative"
+                value = "0.0"
         )
         @DecimalMax(
-                value = "1.0",
-                message = "Minimum campaign discount cannot exceed 1"
+                value = "1.0"
         )
         double minimumCampaignDiscount
 

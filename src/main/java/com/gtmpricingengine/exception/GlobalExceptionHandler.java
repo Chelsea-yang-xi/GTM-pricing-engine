@@ -39,13 +39,13 @@ public class GlobalExceptionHandler {
                                 )
                 );
 
-
         return new ValidationErrorResponse(
                 400,
                 "Validation failed",
                 errors
         );
     }
+
 
     @ExceptionHandler(
             InvalidDiscountException.class
@@ -62,6 +62,23 @@ public class GlobalExceptionHandler {
                 "Invalid pricing request",
                 exception.getMessage()
         );
+    }
 
+
+    @ExceptionHandler(
+            ResourceNotFoundException.class
+    )
+    @ResponseStatus(
+            HttpStatus.NOT_FOUND
+    )
+    public ApiErrorResponse handleNotFound(
+            ResourceNotFoundException exception
+    ) {
+
+        return new ApiErrorResponse(
+                404,
+                "Resource not found",
+                exception.getMessage()
+        );
     }
 }
