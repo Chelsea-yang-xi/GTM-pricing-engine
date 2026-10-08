@@ -25,18 +25,39 @@
         <java.version>18</java.version>
     </properties>
 
+
     <dependencies>
 
+        <!-- REST API / Spring MVC / embedded Tomcat / Jackson -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+
+        <!-- Request validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+
+        <!-- Development-only automatic restart tools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <!-- Current JDBC development database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
 
+
+        <!-- JUnit 5 + Spring test tools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -45,8 +66,8 @@
 
     </dependencies>
 
-    <build>
 
+    <build>
         <plugins>
 
             <plugin>
@@ -58,11 +79,9 @@
                         com.gtmpricingengine.GtmPricingEngineApplication
                     </mainClass>
                 </configuration>
-
             </plugin>
 
         </plugins>
-
     </build>
 
 </project>

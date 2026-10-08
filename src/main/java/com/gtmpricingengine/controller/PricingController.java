@@ -5,6 +5,7 @@ import com.gtmpricingengine.dto.PricingResult;
 import com.gtmpricingengine.engine.PricingEngine;
 import com.gtmpricingengine.model.ChannelRule;
 import com.gtmpricingengine.model.Product;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,16 +21,16 @@ public class PricingController {
     public PricingController(
             PricingEngine pricingEngine
     ) {
-
         this.pricingEngine =
                 pricingEngine;
     }
 
-//POST/api/pricing/calculate
+
     @PostMapping("/calculate")
     public PricingResult calculate(
+            @Valid
             @RequestBody
-            PricingRequest request   // get json from heep body and transfer to java object
+            PricingRequest request
     ) {
 
         Product product =
@@ -58,5 +59,3 @@ public class PricingController {
         );
     }
 }
-
-// JSON -PricingRequest -Controller -Product + ChannelRule-PricingEngine- PricingResult  - JSON
