@@ -1,32 +1,27 @@
 package com.gtmpricingengine.app;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import com.gtmpricingengine.exception.InvalidDiscountException;
-import com.gtmpricingengine.model.Product;
-import com.gtmpricingengine.model.ChannelRule;
-import com.gtmpricingengine.rule.PricingRule;
-import com.gtmpricingengine.rule.AmazonPricingRule;
-import com.gtmpricingengine.rule.BolPricingRule;
-import com.gtmpricingengine.rule.CoolbluePricingRule;
-import com.gtmpricingengine.service.PricingService;
-import com.gtmpricingengine.engine.PricingEngine;
-import com.gtmpricingengine.dto.PricingResult;
-import com.gtmpricingengine.repository.ProductRepository;
-import com.gtmpricingengine.repository.InMemoryProductRepository;
 
+import com.gtmpricingengine.dto.PricingResult;
+import com.gtmpricingengine.engine.PricingEngine;
+import com.gtmpricingengine.exception.InvalidDiscountException;
+import com.gtmpricingengine.model.ChannelRule;
+import com.gtmpricingengine.model.Product;
+import com.gtmpricingengine.repository.InMemoryProductRepository;
+import com.gtmpricingengine.repository.ProductRepository;
+import com.gtmpricingengine.service.PricingService;
 
 public class Main {
 
     public static void main(String[] args) {
 
         // ==============================
-        // 1. Create com.gtmpricingengine.model.Product Catalog
+        // 1. Create Product Repository
         // ==============================
 
-        ProductRepository productRepository = new InMemoryProductRepository();
+        ProductRepository productRepository =
+                new InMemoryProductRepository();
 
         Product product1 =
                 new Product(
@@ -58,7 +53,7 @@ public class Main {
 
 
         // ==============================
-        // 2. Test com.gtmpricingengine.model.Product Catalog
+        // 2. Test Product Repository
         // ==============================
 
         Product selected =
@@ -83,7 +78,7 @@ public class Main {
         // ==============================
 
         Map<String, ChannelRule> channelRules =
-                new HashMap<>();
+                new LinkedHashMap<>();
 
         channelRules.put(
                 "Amazon",
@@ -123,53 +118,25 @@ public class Main {
 
 
         // ==============================
-        // 4. Pricing Strategies
-        // ==============================
-
-        List<PricingRule> pricingRules =
-                new ArrayList<>();
-
-        pricingRules.add(
-                new AmazonPricingRule()
-        );
-
-        pricingRules.add(
-                new BolPricingRule()
-        );
-
-        pricingRules.add(
-                new CoolbluePricingRule()
-        );
-
-
-        // ==============================
-        // 5. Pricing Service
+        // 4. Pricing Engine
         // ==============================
 
         PricingService pricingService =
                 new PricingService();
+
         PricingEngine engine =
                 new PricingEngine(pricingService);
 
 
         // ==============================
-        // 6. Run Pricing Engine
+        // 5. Run Pricing Engine
         // ==============================
 
-        for (PricingRule pricingRule : pricingRules) {
+        for (ChannelRule channelRule :
+                channelRules.values()) {
 
             String channel =
-                    pricingRule.getChannelName();
-
-            ChannelRule channelRule =
-                    channelRules.get(channel);
-            if (channelRule == null) {
-                System.out.println(
-                        "No channel rule found for "
-                                + channel
-                );
-                continue;
-            }
+                    channelRule.getChannelName();
 
             System.out.println();
 
@@ -184,25 +151,26 @@ public class Main {
                     productRepository.findAll()) {
 
                 try {
-                    PricingResult result = engine.calculate(
-                        product,
-                        pricingRule,
-                        channelRule
-                    );
 
-                        System.out.println(
-                                result
-                                        .getProduct()
-                                        .getName()
-                                        + " | Price: "
-                                        + result.getSellingPrice()
-                                        + " | Discount: "
-                                        + result.getDiscount()
-                                        + " | Campaign Cost: "
-                                        + result.getCampaignCost()
-                                        + " | Margin: "
-                                        + result.getMargin()
-                        );
+                    PricingResult result =
+                            engine.calculate(
+                                    product,
+                                    channelRule
+                            );
+
+                    System.out.println(
+                            result
+                                    .getProduct()
+                                    .getName()
+                                    + " | Price: "
+                                    + result.getSellingPrice()
+                                    + " | Discount: "
+                                    + result.getDiscount()
+                                    + " | Campaign Cost: "
+                                    + result.getCampaignCost()
+                                    + " | Margin: "
+                                    + result.getMargin()
+                    );
 
                     if (result.isMarginValid()) {
 
@@ -214,21 +182,22 @@ public class Main {
 
                         System.out.println(
                                 "WARNING: Margin too low"
-                                + channel
-                                + "minimum margin: "
-                                + channelRule.getMinimumMargin()
+                                        + " | Channel: "
+                                        + channel
+                                        + " | Minimum margin: "
+                                        + channelRule.getMinimumMargin()
                         );
                     }
 
-
-                } catch (IllegalArgumentException e){
+                } catch (InvalidDiscountException e) {
 
                     System.out.println(
                             product.getName()
                                     + " | Rejected: "
                                     + e.getMessage()
                     );
-                } catch (InvalidDiscountException e) {
+
+                } catch (IllegalArgumentException e) {
 
                     System.out.println(
                             product.getName()
