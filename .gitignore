@@ -31,3 +31,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+
+analytics/.venv/
+analytics/data/raw/*.csv
+analytics/data/processed/*.parquet
