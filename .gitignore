@@ -36,3 +36,7 @@ bin/
 analytics/.venv/
 analytics/data/raw/*.csv
 analytics/data/processed/*.parquet
+
+analytics/dbt/target/
+analytics/dbt/logs/
+analytics/dbt/retail_warehouse.duckdb

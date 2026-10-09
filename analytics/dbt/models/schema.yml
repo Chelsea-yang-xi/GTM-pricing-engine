@@ -1,0 +1,77 @@
+version: 2
+
+models:
+
+  - name: stg_sales
+
+    columns:
+
+      - name: transaction_id
+
+        tests:
+          - not_null
+          - unique
+
+      - name: sku
+
+        tests:
+          - not_null
+
+      - name: channel
+
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Amazon
+                - Coolblue
+                - Bol.com
+                - MediaMarkt
+
+      - name: campaign
+
+        tests:
+          - accepted_values:
+              values:
+                - Regular
+                - Black Friday
+                - Christmas
+                - Clearance
+
+
+  - name: dim_product
+
+    columns:
+
+      - name: sku
+
+        tests:
+          - not_null
+          - unique
+
+
+  - name: fct_sales
+
+    columns:
+
+      - name: transaction_id
+
+        tests:
+          - not_null
+          - unique
+
+      - name: sku
+
+        tests:
+
+          - relationships:
+
+              to: ref('dim_product')
+
+              field: sku
+
+              #unique → primary/business key
+              #not_null → required field
+              #accepted_values → domain validation
+              #relationships → referential integrity
+              #I added automated dbt quality tests for uniqueness, nullability, accepted domain values and referential integrity.
