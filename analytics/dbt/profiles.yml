@@ -1,0 +1,13 @@
+retail_pricing_analytics:
+
+  target: dev
+
+  outputs:
+
+    dev:
+
+      type: duckdb
+
+      path: retail_warehouse.duckdb
+
+      threads: 4

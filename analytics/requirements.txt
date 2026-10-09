@@ -1,3 +1,7 @@
 pandas
 numpy
 pyarrow
+duckdb
+
+dbt-core==1.11.15
+dbt-duckdb==1.11.0

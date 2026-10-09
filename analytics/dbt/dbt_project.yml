@@ -1,0 +1,24 @@
+name: retail_pricing_analytics
+version: "1.0.0"
+
+profile: retail_pricing_analytics
+
+model-paths:
+  - models
+
+clean-targets:
+  - target
+  - dbt_packages
+
+models:
+
+  retail_pricing_analytics:
+
+    staging:
+      +materialized: table
+
+    intermediate:
+      +materialized: view
+# initially materialized staging as a view, but because the source was an external Parquet file referenced with a relative path, the view introduced a runtime dependency on the working directory. I changed staging to a table so the external file is resolved during the dbt build rather than every downstream query.
+    marts:
+      +materialized: table
