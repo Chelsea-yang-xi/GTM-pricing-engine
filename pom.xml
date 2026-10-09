@@ -8,25 +8,96 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.16</version>
+        <relativePath/>
+    </parent>
+
     <groupId>com.gtmpricingengine</groupId>
     <artifactId>gtm-pricing-engine</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>gtm-pricing-engine</name>
+
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>18</java.version>
     </properties>
+
 
     <dependencies>
 
+        <!-- REST API / Spring MVC / embedded Tomcat / Jackson -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.14.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+
+        <!-- Request validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+
+        <!-- Spring Data JPA + Hibernate -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+
+        <!-- PostgreSQL JDBC driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <!-- Development-only automatic restart -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <!-- H2 used for automated tests -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+
+        <!-- JUnit + Spring testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
+
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <configuration>
+                    <mainClass>
+                        com.gtmpricingengine.GtmPricingEngineApplication
+                    </mainClass>
+                </configuration>
+
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>

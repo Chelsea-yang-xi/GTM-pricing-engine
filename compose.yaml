@@ -1,0 +1,22 @@
+services:
+
+  postgres:
+
+    image: postgres:16-alpine
+
+    container_name: gtm-pricing-postgres
+
+    environment:
+      POSTGRES_DB: gtm_pricing
+      POSTGRES_USER: gtm
+      POSTGRES_PASSWORD: gtm
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
