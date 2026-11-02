@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Retail Pricing Analytics</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Arial, sans-serif;
+          color: #202938;
+          background: #f7f9fc;
+        }
+
+        .layout {
+          display: grid;
+          grid-template-columns: 235px 1fr;
+          min-height: 100vh;
+        }
+
+        aside {
+          padding: 32px 20px;
+          border-right: 1px solid #e3e8f0;
+          background: #fff;
+        }
+
+        .brand {
+          font-size: 17px;
+          font-weight: 750;
+          margin-bottom: 5px;
+        }
+
+        .subtitle, .muted {
+          color: #718096;
+          font-size: 13px;
+        }
+
+        .nav {
+          margin-top: 36px;
+          padding: 12px;
+          border-radius: 8px;
+          background: #edf3ff;
+          color: #2457aa;
+          font-weight: 600;
+          font-size: 14px;
+        }
+
+        .about {
+          margin-top: 42px;
+          padding-top: 20px;
+          border-top: 1px solid #e3e8f0;
+          font-size: 13px;
+          line-height: 1.8;
+          color: #687689;
+        }
+
+        main {
+          max-width: 1420px;
+          width: 100%;
+          padding: 38px 42px;
+          margin: 0 auto;
+        }
+
+        h1 {
+          margin: 0 0 8px;
+          font-size: 29px;
+          letter-spacing: -0.7px;
+        }
+
+        .intro {
+          margin: 0;
+          color: #728093;
+          font-size: 14px;
+        }
+
+        .filters {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: end;
+          gap: 14px;
+          margin: 28px 0;
+        }
+
+        .filter-field {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        label {
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        input, select, button {
+          padding: 11px 13px;
+          border: 1px solid #dbe2eb;
+          background: white;
+          border-radius: 8px;
+          font-size: 13px;
+          color: #263549;
+        }
+
+        button {
+          cursor: pointer;
+          font-weight: 600;
+        }
+
+        button.primary {
+          background: #2764b7;
+          color: white;
+          border-color: #2764b7;
+        }
+
+        .cards {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+
+        .card, .panel {
+          background: white;
+          border: 1px solid #e3e8f0;
+          border-radius: 12px;
+          padding: 23px;
+        }
+
+        .card-label {
+          color: #66758a;
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+
+        .card-number {
+          font-size: 28px;
+          font-weight: 750;
+          letter-spacing: -0.7px;
+        }
+
+        .card-foot {
+          margin-top: 12px;
+          color: #8490a0;
+          font-size: 12px;
+        }
+
+        .content-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-top: 18px;
+        }
+
+        h2 {
+          margin: 0 0 20px;
+          font-size: 17px;
+          letter-spacing: -0.2px;
+        }
+
+        .chart-row {
+          display: grid;
+          grid-template-columns: 100px 1fr 98px;
+          align-items: center;
+          gap: 12px;
+          margin: 17px 0;
+          font-size: 13px;
+        }
+
+        .bar-track {
+          height: 18px;
+          border-radius: 4px;
+          background: #eef2f8;
+          overflow: hidden;
+        }
+
+        .bar {
+          height: 100%;
+          background: #5b91d5;
+          border-radius: 4px;
+          transition: width 0.2s ease;
+        }
+
+        .value {
+          text-align: right;
+          font-variant-numeric: tabular-nums;
+          color: #566579;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          font-size: 13px;
+        }
+
+        th {
+          text-align: left;
+          color: #627187;
+          background: #f5f7fa;
+          font-weight: 600;
+        }
+
+        th, td {
+          padding: 12px 8px;
+          border-bottom: 1px solid #edf0f4;
+        }
+
+        th:not(:first-child),
+        td:not(:first-child) {
+          text-align: right;
+        }
+
+        .takeaways {
+          margin-top: 18px;
+          line-height: 1.9;
+        }
+
+        .takeaways ul { padding-left: 22px; }
+
+        .footer {
+          margin-top: 25px;
+          color: #8490a0;
+          font-size: 12px;
+        }
+
+        .error {
+          color: #a72d34;
+          margin-top: 12px;
+          font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+          .layout { display: block; }
+          aside { padding: 20px; }
+          .about { display: none; }
+          main { padding: 24px 16px; }
+          .cards, .content-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+    </style>
+</head>
+
+<body>
+<div class="layout">
+    <aside>
+        <div class="brand">GTM Pricing Engine</div>
+        <div class="subtitle">Retail Analytics · Prototype</div>
+
+        <div class="nav">Overview</div>
+
+        <div class="about">
+            <strong>Data source</strong><br>
+            Synthetic retail transactions<br>
+            Python ETL → Parquet<br>
+            DuckDB + dbt<br><br>
+
+            <strong>Metric definitions</strong><br>
+            Revenue = price × units<br>
+            Profit = revenue − cost<br>
+            Margin = profit / revenue
+        </div>
+    </aside>
+
+    <main>
+        <h1>Retail Pricing Analytics</h1>
+        <p class="intro">
+            Multi-channel sales performance based on synthetic retail data
+        </p>
+
+        <section class="filters">
+            <div class="filter-field">
+                <label for="start">From</label>
+                <input type="date" id="start">
+            </div>
+
+            <div class="filter-field">
+                <label for="end">To</label>
+                <input type="date" id="end">
+            </div>
+
+            <div class="filter-field">
+                <label for="channel">Channel</label>
+                <select id="channel">
+                    <option value="All">All channels</option>
+                </select>
+            </div>
+
+            <button class="primary" id="apply">Apply filters</button>
+            <button id="reset">Reset</button>
+        </section>
+
+        <div id="error" class="error"></div>
+
+        <section class="cards">
+            <div class="card">
+                <div class="card-label">Total Revenue</div>
+                <div class="card-number" id="revenue">—</div>
+                <div class="card-foot">Selected period · EUR</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Gross Profit</div>
+                <div class="card-number" id="profit">—</div>
+                <div class="card-foot">Revenue minus product costs</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Gross Margin</div>
+                <div class="card-number" id="margin">—</div>
+                <div class="card-foot">Revenue-weighted margin</div>
+            </div>
+        </section>
+
+        <section class="content-grid">
+            <div class="panel">
+                <h2>Revenue by Channel</h2>
+                <div id="channel-chart"></div>
+            </div>
+
+            <div class="panel">
+                <h2>Top 5 SKUs by Revenue</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Units</th>
+                        <th>Revenue</th>
+                        <th>Margin</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sku-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel takeaways">
+            <h2>Key Takeaways</h2>
+            <ul id="insights"></ul>
+            <div class="muted">
+                Automatically derived from SQL metrics.
+                Not AI-generated forecasts.
+            </div>
+        </section>
+
+        <div class="footer">
+            Portfolio prototype · Synthetic data ·
+            Source: DuckDB / dbt fct_sales
+            · <span id="transaction-count"></span>
+        </div>
+    </main>
+</div>
+
+<script>
+    const euro = value =>
+      new Intl.NumberFormat("en-IE", {
+        style: "currency",
+        currency: "EUR",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    const number = value =>
+      new Intl.NumberFormat("en-IE").format(value);
+
+    const percent = value => `${value.toFixed(1)}%`;
+
+    const $ = id => document.getElementById(id);
+
+    let initialRange = null;
+
+    async function loadDashboard(initial = false) {
+      $("error").textContent = "";
+
+      const params = new URLSearchParams();
+
+      if (!initial) {
+        params.set("start", $("start").value);
+        params.set("end", $("end").value);
+        params.set("channel", $("channel").value);
+      }
+
+      try {
+        const response = await fetch(
+          `/api/dashboard?${params.toString()}`
+        );
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Unable to load dashboard");
+        }
+
+        if (!initialRange) {
+          initialRange = [data.date_min, data.date_max];
+
+          $("start").value = data.date_min;
+          $("end").value = data.date_max;
+
+          $("start").min = data.date_min;
+          $("start").max = data.date_max;
+          $("end").min = data.date_min;
+          $("end").max = data.date_max;
+
+          data.channels.forEach(channel => {
+            const option = document.createElement("option");
+            option.value = channel;
+            option.textContent = channel;
+            $("channel").appendChild(option);
+          });
+        }
+
+        render(data);
+      } catch (error) {
+        $("error").textContent = error.message;
+      }
+    }
+
+    function render(data) {
+      const metrics = data.metrics;
+
+      $("revenue").textContent = euro(metrics.revenue);
+      $("profit").textContent = euro(metrics.gross_profit);
+      $("margin").textContent = percent(metrics.margin_rate);
+
+      $("transaction-count").textContent =
+        `${number(metrics.transactions)} transactions`;
+
+      renderChannels(data.by_channel);
+      renderSkus(data.top_skus);
+      renderInsights(data.insights);
+    }
+
+    function renderChannels(rows) {
+      const container = $("channel-chart");
+      container.replaceChildren();
+
+      if (!rows.length) {
+        container.textContent = "No data for this selection.";
+        return;
+      }
+
+      const maximum = Math.max(...rows.map(r => r.revenue), 1);
+
+      rows.forEach(row => {
+        const element = document.createElement("div");
+        element.className = "chart-row";
+
+        const label = document.createElement("span");
+        label.textContent = row.channel;
+
+        const track = document.createElement("div");
+        track.className = "bar-track";
+
+        const bar = document.createElement("div");
+        bar.className = "bar";
+        bar.style.width = `${row.revenue / maximum * 100}%`;
+        track.appendChild(bar);
+
+        const value = document.createElement("span");
+        value.className = "value";
+        value.textContent = euro(row.revenue);
+
+        element.append(label, track, value);
+        container.appendChild(element);
+      });
+    }
+
+    function renderSkus(rows) {
+      const body = $("sku-table");
+      body.replaceChildren();
+
+      rows.forEach(row => {
+        const tr = document.createElement("tr");
+
+        [
+          row.sku,
+          number(row.units),
+          euro(row.revenue),
+          percent(row.margin)
+        ].forEach(value => {
+          const td = document.createElement("td");
+          td.textContent = value;
+          tr.appendChild(td);
+        });
+
+        body.appendChild(tr);
+      });
+    }
+
+    function renderInsights(insights) {
+      const list = $("insights");
+      list.replaceChildren();
+
+      insights.forEach(insight => {
+        const li = document.createElement("li");
+        li.textContent = insight;
+        list.appendChild(li);
+      });
+    }
+
+    $("apply").addEventListener("click", () => loadDashboard());
+
+    $("reset").addEventListener("click", () => {
+      if (initialRange) {
+        $("start").value = initialRange[0];
+        $("end").value = initialRange[1];
+      }
+      $("channel").value = "All";
+      loadDashboard();
+    });
+
+    loadDashboard(true);
+</script>
+</body>
+</html>
